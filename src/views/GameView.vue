@@ -161,19 +161,13 @@ onMounted(() => {
       </div>
     </div>
 
-    <div
-      v-if="showVictoryModal"
-      class="modal-overlay"
-    >
-      <div class="bg-white rounded-2xl shadow-xl p-6 w-80 text-center">
-        <h2 class="text-2xl font-bold text-green-600 mb-4">¡Juego Completado!</h2>
-        <p class="text-lg mb-2">Jugador: <strong>{{ gameStore.userName }}</strong></p>
-        <p class="text-lg mb-4">Puntaje: <strong>{{ gameStore.counter }}</strong></p>
-        <p class="text-lg mb-4">Dificultad: <strong>{{ gameStore.difficulty }}</strong></p>
-        <button
-          @click="goToLeaderboard"
-          class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-xl"
-        >
+    <div v-if="showVictoryModal" class="modal-overlay">
+      <div class="modal-content">
+        <h2 class="modal-title">¡Juego Completado!</h2>
+        <p class="modal-text">Jugador: <strong>{{ gameStore.userName }}</strong></p>
+        <p class="modal-text">Puntaje: <strong>{{ gameStore.counter }}</strong></p>
+        <p class="modal-text">Dificultad: <strong>{{ gameStore.difficulty }}</strong></p>
+        <button class="modal-button" @click="goToLeaderboard">
           Ver tabla de posiciones
         </button>
       </div>
@@ -221,11 +215,58 @@ img {
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index: 9999;
+  background-color: rgba(0, 0, 0, 0.6);
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 1000;
 }
+
+.modal-content {
+  background-color: white;
+  border-radius: 20px;
+  padding: 30px 20px;
+  width: 90%;
+  max-width: 400px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.modal-title {
+  font-size: 24px;
+  color: #28a745;
+  margin-bottom: 15px;
+  font-weight: bold;
+}
+
+.modal-text {
+  font-size: 18px;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.modal-button {
+  background-color: #2a75bb;
+  color: white;
+  padding: 12px 24px;
+  font-size: 16px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  margin-top: 15px;
+}
+
+.modal-button:hover {
+  background-color: #1c4e8b;
+  transform: scale(1.05);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
 
 </style>
