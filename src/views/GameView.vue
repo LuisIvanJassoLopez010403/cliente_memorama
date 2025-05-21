@@ -83,6 +83,7 @@ const showVictoryModal = ref(false);
 const checkWinCondition = () => {
   const allMatched = pokemons.value.every(p => p.matched);
   if (allMatched) {
+    gameStore.saveCurrentScore();
     showVictoryModal.value = true;
   }
 };

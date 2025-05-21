@@ -4,7 +4,7 @@ export const useGameStore = defineStore('game', {
   state: () => {
     return {
       userName: "",
-      region: [],
+      region: "",
       difficulty: "",
       counter: 0
     }
@@ -32,6 +32,22 @@ export const useGameStore = defineStore('game', {
     },
     increment() {
       this.counter++
+    },
+    saveCurrentScore() {
+      const results = JSON.parse(localStorage.getItem('leaderboard') || '{}');
+      const difficulty = this.difficulty;
+      const region = this.region;
+
+      if (!results[difficulty]) results[difficulty] = {};
+      if (!results[difficulty][region]) results[difficulty][region] = [];
+
+      results[difficulty][region].push({
+        name: this.userName,
+        score: this.counter,
+        date: new Date().toISOString()
+      });
+
+      localStorage.setItem('leaderboard', JSON.stringify(results));
     }
   }
 });
