@@ -2,6 +2,7 @@
 import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useGameStore } from '@/stores/game.js';
+import CardPokemon from '@/components/CardPokemon.vue';
 
 const router = useRouter();
 const gameStore = useGameStore();
@@ -141,24 +142,13 @@ onMounted(() => {
       class="grid"
       :style="`grid-template-columns: repeat(${numColumns}, 1fr)`"
     >
-      <div 
+      <CardPokemon 
         v-for="(pokemon, index) in pokemons" 
-        :key="index" 
-        @click="revealPokemon(index)" 
-        class="card"
-        :class="{ revealed: pokemon.revealed || pokemon.matched }"
-      >
-        <img 
-          v-if="pokemon.revealed || pokemon.matched" 
-          :src="pokemon.sprite" 
-          alt="pokemon" 
-        />
-        <img 
-          v-else 
-          src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/132.png" 
-          alt="Ditto oculto" 
-        />
-      </div>
+        :key="index"
+        :pokemon="pokemon"
+        :index="index"
+        @reveal="revealPokemon"
+      />
     </div>
 
     <div v-if="showVictoryModal" class="modal-overlay">
