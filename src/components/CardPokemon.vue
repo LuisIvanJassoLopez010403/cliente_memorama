@@ -11,6 +11,7 @@ const emit = defineEmits(['reveal']);
   <div 
     class="card"
     :class="{ revealed: pokemon.revealed || pokemon.matched }"
+    :data-sprite="pokemon.sprite"
     @click="$emit('reveal', index)"
   >
     <img 
