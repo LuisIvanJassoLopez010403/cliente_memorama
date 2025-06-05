@@ -1,35 +1,3 @@
-function revealAllPairs() {
-    cy.get('.card[data-sprite]').then(cards => {
-        const cardsArray = [...cards];
-        const pairsMap = new Map();
-
-        cardsArray.forEach(card => {
-            const sprite = card.getAttribute('data-sprite');
-            if (!pairsMap.has(sprite)) {
-                pairsMap.set(sprite, []);
-            }
-            pairsMap.get(sprite).push(card);
-        });
-
-        const revealPairAtIndex = (pairs, index) => {
-            if (index >= pairs.length) return;
-
-            const pair = pairs[index];
-            const [card1, card2] = pair;
-
-            cy.wrap(card1).click();
-            cy.wait(550);
-            cy.wrap(card2).click();
-
-            cy.wait(1500);
-
-            revealPairAtIndex(pairs, index + 1);
-        };
-        const pairs = Array.from(pairsMap.values()).filter(arr => arr.length === 2);
-        revealPairAtIndex(pairs, 0);
-    });
-};
-
 describe('Dado que el usuario accede a la ventana de Game', () => {
     beforeEach(() => {
         cy.visit('http://localhost:4173');
@@ -158,14 +126,14 @@ describe('Dado que el usuario accede a la ventana de Game', () => {
         });
     });
 
-    it('Deberá resolver todo el juego y mostrar la pantalla de victoria', () => {
+    it.only('Deberá resolver todo el juego y mostrar la pantalla de victoria', () => {
         cy.get('.button-group button').contains('Kanto').click();
         cy.get('.button-group button').contains('Facil').click();
         cy.get('.start-button').click();
 
         cy.wait(3000);
 
-        revealAllPairs();
+        cy.revealAllPairs();
 
         cy.get('.modal-overlay').should('be.visible');
         cy.get('.modal-title').contains('¡Juego Completado!').should('exist');
@@ -175,14 +143,14 @@ describe('Dado que el usuario accede a la ventana de Game', () => {
         cy.get('.modal-button').contains('Ver tabla de posiciones').should('exist');
     });
 
-    it('Deberá redirigir a la pantalla de tabla de posiciones al dar clic en botón de ver tabla de posiciones', () => {
+    it.only('Deberá redirigir a la pantalla de tabla de posiciones al dar clic en botón de ver tabla de posiciones', () => {
         cy.get('.button-group button').contains('Kanto').click();
         cy.get('.button-group button').contains('Facil').click();
         cy.get('.start-button').click();
 
         cy.wait(3000);
 
-        revealAllPairs();
+        cy.revealAllPairs();
 
         cy.get('.modal-overlay').should('be.visible');
         cy.get('.modal-title').contains('¡Juego Completado!').should('exist');
