@@ -126,7 +126,7 @@ describe('Dado que el usuario accede a la ventana de Game', () => {
         });
     });
 
-    it.only('Deberá resolver todo el juego y mostrar la pantalla de victoria', () => {
+    it('Deberá resolver todo el juego y mostrar la pantalla de victoria', () => {
         cy.get('.button-group button').contains('Kanto').click();
         cy.get('.button-group button').contains('Facil').click();
         cy.get('.start-button').click();
@@ -143,7 +143,7 @@ describe('Dado que el usuario accede a la ventana de Game', () => {
         cy.get('.modal-button').contains('Ver tabla de posiciones').should('exist');
     });
 
-    it.only('Deberá redirigir a la pantalla de tabla de posiciones al dar clic en botón de ver tabla de posiciones', () => {
+    it('Deberá redirigir a la pantalla de tabla de posiciones al dar clic en botón de ver tabla de posiciones', () => {
         cy.get('.button-group button').contains('Kanto').click();
         cy.get('.button-group button').contains('Facil').click();
         cy.get('.start-button').click();

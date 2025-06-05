@@ -51,18 +51,25 @@ const initBoard = async () => {
 
   const [minId, maxId] = regionRanges[region];
   const pairsNeeded = numCards.value / 2;
+  const usedIds = new Set();
   const tempPairs = [];
 
-  for (let i = 0; i < pairsNeeded; i++) {
+  while (tempPairs.length < pairsNeeded * 2) {
     const randomId = Math.floor(Math.random() * (maxId - minId + 1)) + minId;
+
+    if (randomId === 132 || usedIds.has(randomId)) continue;
 
     try {
       const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${randomId}`);
       const data = await res.json();
       const sprite = data.sprites.front_default;
 
-      tempPairs.push({ sprite, revealed: false, matched: false });
-      tempPairs.push({ sprite, revealed: false, matched: false });
+      if (!sprite) continue;
+
+      usedIds.add(randomId);
+      const pair = { sprite, revealed: false, matched: false };
+      tempPairs.push({ ...pair });
+      tempPairs.push({ ...pair });
     } catch (err) {
       console.error(err);
     }
@@ -71,6 +78,7 @@ const initBoard = async () => {
   pokemons.value = shuffleArray(tempPairs);
   isLoading.value = false;
 };
+
 
 const shuffleArray = (array) => {
   return array
